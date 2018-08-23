@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
+import { Button } from 'antd'
 
 const Home = () => (
   <div>
     <h2>Home</h2>
+    <Button type="primary">Button</Button>
   </div>
 );
 
