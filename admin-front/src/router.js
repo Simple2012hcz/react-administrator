@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link,Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 
 const Home = () => (
@@ -46,16 +46,19 @@ const Topic = ({ match }) => (
 
 /**
  * 自定义路由
+ * 其中Router只能有一个子节点
  */
 class CustomerRouter extends React.Component{
 
   render(){
     return (
-      <Switch>>
-        <Route exact path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/topics" component={Topics} />
-      </Switch>
+      <Router>
+       <div>
+          <Route exact path="/" component={Home} />
+          <Route path="/about" component={About} />
+          <Route path="/topics" component={Topics} />
+       </div>
+      </Router>
     )
   }
 
