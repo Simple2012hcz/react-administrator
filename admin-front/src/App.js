@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import CustomerRouter from "./router"
-import LeftBar from './share-components/leftBar-collapse-bottom/leftBar';
+import LeftBarCollapseBottom from './share-components/leftBar-collapse-bottom/leftBar';
+import LeftBarBtnBottom from './share-components/leftBar/leftBar';
 
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Breadcrumb, Icon } from 'antd';
 const { Header, Sider, Content } = Layout;
 
 
@@ -14,7 +15,7 @@ class App extends Component {
     return (
       <Layout className="app-wrapper" >
 
-       <LeftBar />
+       <LeftBarBtnBottom />
 
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }}>
