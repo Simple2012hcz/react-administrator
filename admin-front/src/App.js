@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import CustomerRouter from "./router"
-import LeftBar from './share-components/leftBar/leftBar';
-// import LeftBar from './share-components/leftBar-one-open/leftBar';
+// import LeftBar from './share-components/leftBar/leftBar';
+import LeftBar from './share-components/leftBar-one-open/leftBar';
 // import LeftBar from './share-components/leftBar-collapse-bottom/leftBar';
 
 import { Layout, Breadcrumb, Icon } from 'antd';

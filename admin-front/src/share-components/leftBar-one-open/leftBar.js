@@ -7,20 +7,21 @@ import {Link } from 'react-router-dom'
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
+const MenuItem = Menu.Item;
 /**
  * left menu bar
  * @authoror:czhu2
  * @date: 2018-08-23
  */
 class LeftBar extends Component{
-  rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
   state = {
     collapsed: false,
     mode: 'inline',
     theme: 'dark',
     current:1,
-    openKeys: ['sub1'],
-   
+    openKeys: ['menu_0'],
+    navList:[],
+    rootSubmenuKeys:[],
   };
 
   onCollapse = (collapsed) => {
@@ -39,8 +40,11 @@ class LeftBar extends Component{
     });
   }
   onOpenChange = (openKeys) => {
+    let self = this;
+    let state = self.state;
+
     const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
-    if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+    if (state.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
       this.setState({ openKeys });
     } else {
       this.setState({
@@ -48,14 +52,113 @@ class LeftBar extends Component{
       });
     }
   }
-  handleClick = (e) => {
-    console.log('click ', e);
-    this.setState({
-      current: e.key,
-    });
+  componentDidMount(){
+    let self = this;
+    let state = self.state;
+    let arr = [{
+      title:'Navigation One',
+      icon:'mail',
+      children:[
+        {
+          title:'Option 1',
+          router:'/'
+        },
+        {
+          title:'Option 2',
+          router:'/'
+        },
+        {
+          title:'Option 3',
+          router:'/'
+        },{
+          title:'Option 4',
+          router:'/'
+        }
+      ]      
+    },
+    {
+      title:'Navigation Two',
+      icon:'appstore',
+      children:[
+        {
+          title:'Option 5',
+          router:'/'
+        },
+        {
+          title:'Option 6',
+          router:'/'
+        },
+        {
+          title:'Option 7',
+          router:'/'
+        },{
+          title:'Option 8',
+          router:'/'
+        }
+      ]      
+    },{
+      title:'Navigation Three',
+      icon:'setting',
+      children:[
+        {
+          title:'Tom',
+          router:'/about',
+        },
+        {
+          title:'Jack',
+          router:'/topic',
+        }
+      ]
+    }
+  ]; 
+     let size = arr.length;
+      let rootSubmenuKeys = [];
+      for(let i = 0;i < size;i++){
+        rootSubmenuKeys.push("menu_"+i);
+      }
+      self.setState({
+        navList:arr,
+        rootSubmenuKeys:rootSubmenuKeys,
+      });
+  }
+  /**
+   * 获取菜单
+   */
+  getSubMenu = (item,index) => {
+    let self = this;
+    let state = self.state;
+    let menu = null;
+    if(item.children && item.children.length > 0){
+      menu =   <SubMenu
+        key= {`menu_`+index}
+        title={<span><Icon type={item.icon} /><span>{item.title}</span></span>}
+        >
+        {
+          item.children.map((subItem,subIx) => {
+            return (
+              <MenuItem key={`menu_`+index + "_sub_" + subIx}>
+              {subItem.title}
+              <Link to={subItem.router}></Link>
+              </MenuItem>
+            )
+          })
+        }
+      </SubMenu>
+    }else{
+      menu =  <MenuItem key= {`menu_`+index}>
+      <Icon type={item.icon} />
+      <span>{item.title}</span>
+      <Link to={item.router}></Link>
+    </MenuItem>
+    }
+      return menu;
   }
   
+
+  
     render() {
+      let self = this;
+      let state = self.state;
       return (
         <Sider
         collapsible
@@ -71,15 +174,19 @@ class LeftBar extends Component{
         <br />
         <br />
         <Menu 
-          defaultOpenKeys={['sub1']}
           mode={this.state.mode}
           theme={this.state.theme}
-          onClick={this.handleClick}
           openKeys={this.state.openKeys}
           onOpenChange={this.onOpenChange}
-          selectedKeys={[this.state.current]}
         >
-            <SubMenu key="sub1" title={<span><Icon type="mail" /><span>Navigation One</span></span>}>
+        {
+          state.navList.map((item,index) => {
+            return self.getSubMenu(item,index)
+          })
+         }
+          {
+            /**
+             *   <SubMenu key="sub1" title={<span><Icon type="mail" /><span>Navigation One</span></span>}>
             <Menu.Item key="1">Option 1</Menu.Item>
             <Menu.Item key="2">Option 2</Menu.Item>
             <Menu.Item key="3">Option 3</Menu.Item>
@@ -99,6 +206,8 @@ class LeftBar extends Component{
             <Menu.Item key="11">Option 11</Menu.Item>
             <Menu.Item key="12">Option 12</Menu.Item>
           </SubMenu>
+             */
+          }
         </Menu>
       </Sider>
       );
