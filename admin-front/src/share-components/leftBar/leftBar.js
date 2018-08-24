@@ -7,6 +7,7 @@ import {Link } from 'react-router-dom'
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
+const MenuItem = Menu.Item;
 /**
  * left menu bar
  * @authoror:czhu2
@@ -18,7 +19,38 @@ class LeftBar extends Component{
     mode: 'inline',
     theme: 'dark',
     current:1,
+    navList:[] , //导航菜单
   };
+  
+  componentDidMount(){
+    let self = this;
+    self.setState({
+      navList:[{
+        title:'首页',
+        icon:'pie-chart',
+        router:'/'        
+      },
+      {
+        title:'desktop',
+        icon:'desktop',
+        router:'/topics'
+      },{
+        title:'user',
+        icon:'user',
+        children:[
+          {
+            title:'Tom',
+            router:'/about',
+          },
+          {
+            title:'Jack',
+            router:'/topic',
+          }
+        ]
+      }
+    ]
+    })
+  }
 
   onCollapse = (collapsed) => {
     console.log(collapsed);
@@ -41,8 +73,43 @@ class LeftBar extends Component{
       current: e.key,
     });
   }
+  /**
+   * 获取菜单
+   */
+  getSubMenu = (item,index) => {
+    let self = this;
+    let state = self.state;
+    let menu = null;
+    if(item.children && item.children.length > 0){
+      menu =   <SubMenu
+        key= {`menu_`+index}
+        title={<span><Icon type={item.icon} /><span>{item.title}</span></span>}
+        >
+        {
+          item.children.map((subItem,subIx) => {
+            return (
+              <MenuItem key={`menu_`+index + "_sub_" + subIx}>
+              {subItem.title}
+              <Link to={subItem.router}></Link>
+              </MenuItem>
+            )
+          })
+        }
+      </SubMenu>
+    }else{
+      menu =  <MenuItem key= {`menu_`+index}>
+      <Icon type={item.icon} />
+      <span>{item.title}</span>
+      <Link to={item.router}></Link>
+    </MenuItem>
+    }
+      return menu;
+  }
   
     render() {
+      let self = this;
+      let state = self.state;
+
       return (
         <Sider
         collapsible
@@ -58,42 +125,17 @@ class LeftBar extends Component{
         <br />
         <br />
         <Menu 
-          defaultOpenKeys={['sub1']}
+          defaultOpenKeys={['menu_0']}
           mode={this.state.mode}
           theme={this.state.theme}
           onClick={this.handleClick}
           selectedKeys={[this.state.current]}
         >
-          <Menu.Item key="1">
-            <Icon type="pie-chart" />
-            <span>首页</span>
-            <Link to="/"></Link>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <Icon type="desktop" />
-           <span>topics</span>
-           <Link to="/topics"></Link>
-          </Menu.Item>
-          <SubMenu
-            key="sub1"
-            title={<span><Icon type="user" /><span>User</span></span>}
-          >
-            <Menu.Item key="3">Tom</Menu.Item>
-            <Menu.Item key="4">Bill</Menu.Item>
-            <Menu.Item key="5">Alex</Menu.Item>
-          </SubMenu>
-          <SubMenu
-            key="sub2"
-            title={<span><Icon type="team" /><span>Team</span></span>}
-          >
-            <Menu.Item key="6">Team 1</Menu.Item>
-            <Menu.Item key="8">Team 2</Menu.Item>
-          </SubMenu>
-          <Menu.Item key="9">
-            <Icon type="file" />
-           <span>About</span>
-           <Link to="/about"></Link>
-          </Menu.Item>
+         {
+          state.navList.map((item,index) => {
+            return self.getSubMenu(item,index)
+          })
+         }
         </Menu>
       </Sider>
       );
