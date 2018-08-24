@@ -66,11 +66,13 @@ class LeftBar extends Component{
         >
           <Menu.Item key="1">
             <Icon type="pie-chart" />
-            <Link to="/topics"><span>首页</span></Link>
+            <span>首页</span>
+            <Link to="/"></Link>
           </Menu.Item>
           <Menu.Item key="2">
             <Icon type="desktop" />
-           <span> <Link to="/">Home</Link></span>
+           <span>topics</span>
+           <Link to="/topics"></Link>
           </Menu.Item>
           <SubMenu
             key="sub1"
@@ -89,7 +91,8 @@ class LeftBar extends Component{
           </SubMenu>
           <Menu.Item key="9">
             <Icon type="file" />
-           <span> <Link to="/about">About</Link></span>
+           <span>About</span>
+           <Link to="/about"></Link>
           </Menu.Item>
         </Menu>
       </Sider>
