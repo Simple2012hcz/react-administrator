@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import CustomerRouter from "./router"
-import LeftBarBtnBottom from './share-components/leftBar/leftBar';
+import LeftBar from './share-components/leftBar/leftBar';
+// import LeftBar from './share-components/leftBar-one-open/leftBar';
+// import LeftBar from './share-components/leftBar-collapse-bottom/leftBar';
 
 import { Layout, Breadcrumb, Icon } from 'antd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
+
 const { Header, Sider, Content,Footer } = Layout;
 
 
@@ -15,7 +19,7 @@ class App extends Component {
     return (
       <Router>
           <Layout className="app-wrapper" >
-          <LeftBarBtnBottom /> 
+          <LeftBar /> 
           <Layout>
               <Header style={{ background: '#fff', padding: 0 }}></Header>
               
